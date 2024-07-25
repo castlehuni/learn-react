@@ -98,4 +98,16 @@ const container = document.getElementById("root");
 // ReactDOM Root 생성
 const reactDomRoot = ReactDOM.createRoot(container);
 
-reactDomRoot.render(list);
+function render() {
+  reactDomRoot.render(list);
+}
+
+function unmount() {
+  reactDomRoot.unmount();
+}
+
+// 특정 시간이 지나면, 앱을 화면에 랜더링(표시) 하세요.
+setTimeout(render, 3000);
+
+//특정 시간이 지나면, 랜더링된 앱을 화면에서 표시하지 마세요.
+setTimeout(unmount, 4000);
