@@ -1,6 +1,8 @@
-import { createElement as h } from "https://esm.sh/react";
-import ReactDOM from "https://esm.sh/react-dom";
+// 반응성(Reactivity) 구현
+// 개발자 -> 데이터 수정 -> 반응성(변경 감지) -> 리액트 -> 화면 업데이트 구현
 
+// 일반 JavaScript 객체
+// 개발자가 선언된 데이터 관리
 const listData = {
   items: [
     // { id: '1', title: 'Climatology' },
@@ -43,30 +45,30 @@ const reactDomRoot = ReactDOM.createRoot(container);
 
 function render() {
   const children = reactiveListData.items.map(({ id, title }) => {
-    const reactElement = h(
+    const reactElement = React.createElement(
       "li",
       {
         key: id,
         className: "item",
       },
-      h("img", {
+      React.createElement("img", {
         src: `/architectures/architecture-${id}.jpg`,
         alt: "",
       }),
-      h(
+      React.createElement(
         "span",
         {
           className: "content",
         },
         title
       ),
-      h(
+      React.createElement(
         "button",
         {
           type: "button",
           title: "아이템 이동 (위/아래 화살표 키 활용)",
         },
-        h("img", {
+        React.createElement("img", {
           src: "/icons/handle.svg",
           alt: "아이템 이동 (위/아래 화살표 키 활용)",
         })
@@ -76,7 +78,7 @@ function render() {
     return reactElement;
   });
 
-  const list = h(
+  const list = React.createElement(
     "ul",
     { className: "architectures", lang: "en" },
 
