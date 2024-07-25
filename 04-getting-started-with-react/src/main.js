@@ -1,104 +1,90 @@
+// 반응성(Reactivity) 구현
+// 개발자 -> 데이터 수정 -> 반응성(변경 감지) -> 리액트 -> 화면 업데이트 구현
+
+// 일반 JavaScript 객체
+// 개발자가 선언된 데이터 관리
 const listData = {
   items: [
-    { id: "3", title: "Graphics" },
-    { id: "1", title: "Climatology" },
-    { id: "2", title: "History of Architecture" },
-    { id: "4", title: "Building design" },
+    // { id: '1', title: 'Climatology' },
+    // { id: '2', title: 'History of Architecture' },
+    // { id: '3', title: 'Graphics' },
+    // { id: '4', title: 'Building design' },
   ],
 };
 
-// React 리스트 랜더링
-// Array.prototype.map 매서드 활용
-const children = listData.items.map((item) => {
-  const itemElement = React.createElement(
-    "li",
-    {
-      className: "item",
-    },
-    React.createElement("img", {
-      src: `/architectures/architecture-${item.id}.jpg`,
-      alt: "",
-    }),
-    React.createElement(
-      "span",
-      {
-        className: "content",
-      },
-      `${item.title}`
-    ),
-    React.createElement(
-      "button",
-      {
-        type: "button",
-        title: "아이템 이동 (위/아래 화살표 키 활용)",
-      },
-      React.createElement("img", {
-        src: "/icons/handle.svg",
-        alt: "아이템 이동 (위/아래 화살표 키 활용)",
-      })
-    )
-  );
-  return itemElement;
+// 반응성 구현 : Proxy 객체 활용 (like Vue.js)
+const reactiveListData = new Proxy(listData, {
+  // GET (원본 수정 대신, 프록시를 사용해 가로채서 읽기)
+  get(target, prop) {
+    console.log("[GET]");
+    // 객체의 속성 반환
+    return target[prop];
+  },
+
+  // SET (원본 수정 대신, 프록시를 사용해 가로채서 쓰기)
+  set(target, prop, newValue) {
+    // 이전 값
+    const oldValue = target[prop];
+
+    // 새로운 값으로 업데이트 로직 작성
+    target[prop] = newValue;
+
+    console.log("[SET] update", JSON.stringify(newValue));
+
+    // 리액트로 하여금 반응(수정 감지)되면 화면을 다시 그려라
+    console.log("리-렌더링(re-render)");
+    render();
+
+    return true;
+  },
 });
-
-// TODO:
-// React API를 사용해 <li></li> React 엘리먼트 생성
-// const itemlist = React.createElement(
-//   "li",
-//   {
-//     className: "item",
-//   },
-//   React.createElement("img", {
-//     src: "/architectures/architecture-1.jpg",
-//     alt: "",
-//   }),
-//   React.createElement(
-//     "span",
-//     {
-//       className: "content",
-//     },
-//     "Climatology"
-//   ),
-//   React.createElement(
-//     "button",
-//     {
-//       type: "button",
-//       title: "아이템 이동 (위/아래 화살표 키 활용)",
-//     },
-//     React.createElement("img", {
-//       src: "/icons/handle.svg",
-//       alt: "아이템 이동 (위/아래 화살표 키 활용)",
-//     })
-//   )
-// );
-
-// const children = [itemlist];
-
-// React.createElement API
-// <ul></ul> 리액트 엘리먼트 생성
-const list = React.createElement(
-  "ul",
-  { className: "architectures", lang: "en" },
-  // children
-  ...children
-);
-
-// 리액트 요소(React Element === 가상 DOM 요소 노드) 생성
-console.log(list);
-
-// React.isValidElement API
-console.log(React.isValidElement(list));
-
-// 리액트 앱 렌더링 (그림을 그리다, 화면에 표시)
-// ReactDOM / Server or [Client]
-// ReactDOM.createRoot(container/* 실제 DOM 노드: 요소 노드 */)
 
 const container = document.getElementById("root");
 
-// ReactDOM Root 생성
 const reactDomRoot = ReactDOM.createRoot(container);
 
 function render() {
+  const children = reactiveListData.items.map(({ id, title }) => {
+    const reactElement = React.createElement(
+      "li",
+      {
+        key: id,
+        className: "item",
+      },
+      React.createElement("img", {
+        src: `/architectures/architecture-${id}.jpg`,
+        alt: "",
+      }),
+      React.createElement(
+        "span",
+        {
+          className: "content",
+        },
+        title
+      ),
+      React.createElement(
+        "button",
+        {
+          type: "button",
+          title: "아이템 이동 (위/아래 화살표 키 활용)",
+        },
+        React.createElement("img", {
+          src: "/icons/handle.svg",
+          alt: "아이템 이동 (위/아래 화살표 키 활용)",
+        })
+      )
+    );
+
+    return reactElement;
+  });
+
+  const list = React.createElement(
+    "ul",
+    { className: "architectures", lang: "en" },
+
+    children
+  );
+
   reactDomRoot.render(list);
 }
 
@@ -106,8 +92,45 @@ function unmount() {
   reactDomRoot.unmount();
 }
 
-// 특정 시간이 지나면, 앱을 화면에 랜더링(표시) 하세요.
-setTimeout(render, 3000);
+// 최초 마우트 시 실행 (렌더링)
+render();
 
-//특정 시간이 지나면, 랜더링된 앱을 화면에서 표시하지 마세요.
-setTimeout(unmount, 4000);
+// TODO:
+// 1초 마다 반응성 데이터에 새로운 아이템 추가 (업데이트)
+setTimeout(() => {
+  reactiveListData.items = [
+    ...reactiveListData.items,
+    {
+      id: 1,
+      title: "Climatology",
+    },
+  ];
+}, 1000);
+setTimeout(() => {
+  reactiveListData.items = [
+    ...reactiveListData.items,
+    {
+      id: 2,
+      title: "History of Architecture",
+    },
+  ];
+}, 2000);
+setTimeout(() => {
+  reactiveListData.items = [
+    ...reactiveListData.items,
+    {
+      id: 3,
+      title: "Graphics",
+    },
+  ];
+}, 3000);
+
+setTimeout(() => {
+  reactiveListData.items = [
+    ...reactiveListData.items,
+    {
+      id: 4,
+      title: "Building design",
+    },
+  ];
+}, 4000);
