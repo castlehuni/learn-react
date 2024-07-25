@@ -1,6 +1,8 @@
 // 실습(Practice)
-import { createElement } from "./lib/virtual/index.js";
+import { createElement, isValidElement } from "./lib/virtual/index.js";
 import { createRoot } from "./lib/virtual-dom/index.js";
+
+console.log(isValidElement);
 
 const listData = {
   items: [
@@ -49,6 +51,12 @@ const list = createElement(
   // <li class="item"></li> 가상 요소 삽입(추가)
   ...listItems
 );
+
+// 가상 요소 객체
+console.log(isValidElement(list));
+
+// 일반 JavaScript 객체
+console.log(isValidElement({ $$typeof: Symbol("virtual.element") }));
 
 // 가상 DOM (실제 DOM 흉내: 단순화)
 // console.log(list);
