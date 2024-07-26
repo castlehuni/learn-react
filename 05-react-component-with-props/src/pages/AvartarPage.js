@@ -30,8 +30,16 @@ function AvartarPage() {
     {
       className: "AvatarList",
     },
-    h("li", null, h(Avatar, { name: "야무", photo: "man-02.jpg" })),
-    h("li", null, h(Avatar, { name: "범쌤", photo: "man-04.jpg" }))
+    h(
+      "li",
+      null,
+      h(Avatar, { name: "야무", photo: "man-02.jpg", status: "online" })
+    ),
+    h(
+      "li",
+      null,
+      h(Avatar, { name: "범쌤", photo: "man-04.jpg", status: "away" })
+    )
   );
 }
 export default AvartarPage;
