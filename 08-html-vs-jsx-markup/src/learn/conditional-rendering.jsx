@@ -1,4 +1,4 @@
-import { randomNumber, typeOf } from '../utils';
+import { isTrueOrFalse, typeOf } from '../utils';
 import reactImagePath from '../assets/react.svg?url';
 import viteImagePath from '../assets/vite.svg?url';
 import nextJsImagePath from '../assets/next-js.svg?url';
@@ -33,16 +33,17 @@ function ConditionalRendering({ imageType }) {
     printText = 'Kakao Talk';
   }
 
-  const spinnerOrVite =
-    randomNumber(0, 1) > 0.5 ? (
-      <img className="spinner" src="/icons/spinner.svg" alt="로딩 중..." />
-    ) : (
-      <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
-    );
+  const spinnerOrVite = isTrueOrFalse() ? (
+    <img className="spinner" src="/icons/spinner.svg" alt="로딩 중..." />
+  ) : (
+    <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
+  );
 
   return (
     <>
-      <dt>조건부 렌더링(conditional rendering)</dt>
+      <dt>
+        조건부 렌더링(conditional rendering)({isTrueOrFalse() && '스피너 표시'})
+      </dt>
       <dd>
         <p>이미지 타입(image type)에 따라 렌더링 여부를 결정합니다.</p>
         <div className="conditionalRendering">
