@@ -1,4 +1,4 @@
-import { typeOf } from '../utils';
+import { randomNumber, typeOf } from '../utils';
 import reactImagePath from '../assets/react.svg?url';
 import viteImagePath from '../assets/vite.svg?url';
 import nextJsImagePath from '../assets/next-js.svg?url';
@@ -33,6 +33,13 @@ function ConditionalRendering({ imageType }) {
     printText = 'Kakao Talk';
   }
 
+  const spinnerOrVite =
+    randomNumber(0, 1) > 0.5 ? (
+      <img className="spinner" src="/icons/spinner.svg" alt="로딩 중..." />
+    ) : (
+      <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
+    );
+
   return (
     <>
       <dt>조건부 렌더링(conditional rendering)</dt>
@@ -48,8 +55,16 @@ function ConditionalRendering({ imageType }) {
       <dd style={{ marginTop: 12 }}>
         <p>spinner 또는 vite 이미지가 랜덤으로 화면에 렌더링 되도록 합니다.</p>
         <div className="conditionalRendering">
-          <img className="spinner" src="/icons/spinner.svg" alt="로딩 중..." />
-          <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
+          {/* {randomNumber(0, 1) > 0.5 ? (
+            <img
+              className="spinner"
+              src="/icons/spinner.svg"
+              alt="로딩 중..."
+            />
+          ) : (
+            <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
+          )} */}
+          {spinnerOrVite}
         </div>
       </dd>
     </>
@@ -84,6 +99,7 @@ ConditionalRendering.propTypes = {
 };
 
 // {/* imageType 값이 'vite'인 경우 Vite 이미지를, 'react'인 경우 React 이미지를 화면에 표시합니다. */}
+// 삼항 연산자로 내가 작성한 부분
 // {imageType === 'react' ? (
 //   <img src="/src/assets/react.svg" alt="리액트 로고" />
 // ) : imageType === 'vite' ? (
@@ -99,3 +115,19 @@ ConditionalRendering.propTypes = {
 // ) : (
 //   <p>일치하는 텍스트가 없습니다</p>
 // )}
+
+{
+  // 내가 작성한 코드
+  /* <p>spinner 또는 vite 이미지가 랜덤으로 화면에 렌더링 되도록 합니다.</p>
+<div className="conditionalRendering">
+  {randomNumber(0, 1) === 0 ? (
+    <img
+      className="spinner"
+      src="/icons/spinner.svg"
+      alt="로딩 중..."
+    />
+  ) : (
+    <img src="/vite.svg" alt="Vite" style={{ height: 42 }} />
+  )}
+</div> */
+}
