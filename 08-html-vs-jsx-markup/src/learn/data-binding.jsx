@@ -35,17 +35,18 @@ DataBinding.propTypes = {
   statusMessages(props, propName, componentName) {
     // 컴포넌트 속성의 값은?
     const propValue = props[propName];
-    // console.log(propValue);
 
     // 컴포넌트 속성 값의 타입은? (문자 값을 원해~)
     const propType = typeOf(propValue);
-    console.log(propType);
 
     // 허용할 데이터 타입의 이름은?
-    const allowDataType = 'array';
+    const allowedType = 'array';
 
     // 검사 수행
-    if (propType !== allowDataType) {
+    if (propType !== allowedType) {
+      throw new Error(
+        `${componentName} 컴포넌트 ${propName} 속성 타입은 "${allowedType}" 타입이 요구되나, 실제 전달된 타입은 "${propType}"입니다.`
+      );
     }
   },
 };
