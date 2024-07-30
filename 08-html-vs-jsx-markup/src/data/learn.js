@@ -1,4 +1,4 @@
-export const imageType = 'kakao talk';
+export const imageType = 'react';
 
 export const isShowReactImage = !true;
 
