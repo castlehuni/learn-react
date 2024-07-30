@@ -1,6 +1,6 @@
 export const imageType = 'kakao talk';
 
-export const isShowReactImage = true;
+export const isShowReactImage = !true;
 
 export const statusMessages = [
   '⌛️ 대기',

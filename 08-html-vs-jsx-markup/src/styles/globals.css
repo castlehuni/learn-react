@@ -81,7 +81,6 @@ abbr[title] {
     margin-bottom: 8px;
   }
 
-
   .descriptionList {
     margin: 0;
 
@@ -192,4 +191,10 @@ abbr[title] {
       translate: 0 8px;
     }
   }
+}
+
+/* utilities */
+.hidden,
+[hidden] {
+  display: none !important;
 }
