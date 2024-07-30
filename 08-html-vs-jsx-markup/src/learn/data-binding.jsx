@@ -1,11 +1,7 @@
+import { typeOf } from '../utils';
 import { randomNumber } from '../utils';
 
 function DataBinding({ statusMessages }) {
-  // <div> 남용
-  // 요소를 선택하는 최후의 수단(기준)
-  // 1. HTML에는 이미 의미적인 요소가 준비되어 있음
-  // 2. 의미에 맞는 요소가 존재하지 않을 때 그 때!!! 비로서 <div> 사용
-
   // let randomNum = Math.floor(Math.random() * 4);
   const statusMessage =
     statusMessages[randomNumber(0, statusMessages.length - 1)];
@@ -28,3 +24,28 @@ function DataBinding({ statusMessages }) {
 // JSX runtime (automatic): jsx(React.Fragment, props)
 
 export default DataBinding;
+
+// 컴포넌트 속성 타입 검사
+// Prop Types Validation
+
+// 리액트가 제공하는 방법
+// Component.protoTypes
+
+DataBinding.propTypes = {
+  statusMessages(props, propName, componentName) {
+    // 컴포넌트 속성의 값은?
+    const propValue = props[propName];
+    // console.log(propValue);
+
+    // 컴포넌트 속성 값의 타입은? (문자 값을 원해~)
+    const propType = typeOf(propValue);
+    console.log(propType);
+
+    // 허용할 데이터 타입의 이름은?
+    const allowDataType = 'array';
+
+    // 검사 수행
+    if (propType !== allowDataType) {
+    }
+  },
+};

@@ -19,7 +19,7 @@ function JSX_Markup() {
   return (
     <dl className="descriptionList">
       {/* {React.createElement(DataBinding, { statusMessages: statusMessages })} */}
-      <DataBinding statusMessages={statusMessages} />
+      <DataBinding statusMessages={'wow react component'.split(' ')} />
       <ConditionalRendering />
       <ConditionalDisplay />
       <RenderLists />
