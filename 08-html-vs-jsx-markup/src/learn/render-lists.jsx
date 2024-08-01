@@ -2,12 +2,32 @@ import { array } from '../utils/prop-types';
 
 function RenderLists({ items /* string[], Array<string> */ }) {
   // 함수 내부에 리스트 렌더링 코드를 작성해보세요.
-  const renderList = () => {
+  // react.d.ts
+  // { @@typeof: 'Symbol(react.element)', ... }
+  // JSDOC
+  /**@type{() => Array<React.ReactElement>} */
+  // const renderList = (options = {}) => {
+  const renderList = ({ reverse = false } = {}) => {
+    // const { reverse = false } = options;
+    // console.log({ reverse });
+
+    let listItems = items; // 대기 → 로딩 실패 순
+
+    if (reverse) {
+      // [1] listItems = items.reverse();
+      // listItems = items.reverse(); // 참조된 items을 직접 변경 (순서 바꾸기)
+      // listItems = items.slice().reverse();
+      // listItems = [...items].reverse();
+
+      // [2] listItems = items.toReversed();
+      listItems = items.toReversed(); // ES 2023 (v14) 추가
+    }
+
     // 리스트 렌더링 결과 반환
     // - [ ] Array.prototype.forEach?
     // - [x] Array.prototype.map?
-    return items.map((item) /* string */ => {
-      console.log(item);
+    return listItems.map((item) /* string */ => {
+      // console.log(item);
       // JSX(React Element) Markup
       return <li key={item}>{item}</li>;
     });
@@ -40,17 +60,29 @@ function RenderLists({ items /* string[], Array<string> */ }) {
 export default RenderLists;
 
 RenderLists.propTypes = {
-  // D.R.Y
-  // Reusability
-  // Mechanism
-  // - [x] Function
-  // - [ ] Class
-  // NEEDS
-  // Library (Utilities)
-  // items(props, propName, componentName) {
-  //   const propValue = props[propName];
-  //   const propType = typeOf(propValue);
-
-  // }
-  items: array,
+  // items: oneOf(statusMessages)
+  items: array, // [권장] arrayOf(string) | arrayOf(number)
 };
+
+// 내가 작성한 reverse하기
+// const renderList = (reverse = false) => {
+//   // 리스트 렌더링 결과 반환
+//   // - [ ] Array.prototype.forEach?
+//   // - [x] Array.prototype.map?
+//   if (!reverse) {
+//     return items.map((item) /* string */ => {
+//       // console.log(item);
+//       // JSX(React Element) Markup
+//       return <li key={item}>{item}</li>;
+//     });
+//   } else {
+//     return items
+//       .slice(0)
+//       .reverse()
+//       .map((item) /* string */ => {
+//         // console.log(item);
+//         // JSX(React Element) Markup
+//         return <li key={item}>{item}</li>;
+//       });
+//   }
+// };

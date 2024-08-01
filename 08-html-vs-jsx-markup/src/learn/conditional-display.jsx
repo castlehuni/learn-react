@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { typeOf } from '../utils';
 
 function ConditionalDisplay({ isShowImage }) {
@@ -23,6 +24,7 @@ function ConditionalDisplay({ isShowImage }) {
     lineHeight: 2.4,
     letterSpacing: '2px',
   };
+  // console.log(pictureStyles);
 
   return (
     <>
