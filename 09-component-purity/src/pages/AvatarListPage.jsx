@@ -40,10 +40,10 @@ function AvatarListPage(props) {
   // DOM 요소에 대한 접근/조작
   // 타이머 API 활용
   let renderCount = 0;
-  setInterval(() => {
-    console.log(renderCount);
-    document.getElementById('react-app').dataset.render = ++renderCount;
-  }, 1000);
+  // setInterval(() => {
+  //   console.log(renderCount);
+  //   document.getElementById('react-app').dataset.render = ++renderCount;
+  // }, 1000);
 
   return (
     <ul className="AvatarList">
