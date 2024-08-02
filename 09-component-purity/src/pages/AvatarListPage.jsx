@@ -1,52 +1,27 @@
 // --------------------------------------------------------------------------
 // ✅ 컴포넌트 로직 재구성
 // --------------------------------------------------------------------------
-// - [ ] 데이터 분리
-// - [ ] 리스트 렌더링
+// - [x] 데이터 분리
+// - [x] 리스트 렌더링
+// - [x] 컴포넌트 속성 검사
 // - [ ] 컴포넌트 순수성 진단
 // --------------------------------------------------------------------------
-
+import { arrayOf } from 'prop-types';
 import Avatar from '@/components/Avatar';
+import { UserType } from '@/@types/globals.d';
 
-const data = {
-  datas: [
-    {
-      name: '야무',
-      photo: 'man-02.jpg',
-      status: 'online',
-    },
-    {
-      name: '범쌤',
-      photo: 'man-04.jpg',
-      status: 'away',
-    },
-    {
-      name: '주원',
-      photo: 'woman-04.jpg',
-      status: 'dont-disturb',
-    },
-    {
-      name: '정민',
-      photo: 'woman-01.jpg',
-    },
-  ],
+AvatarListPage.propTypes = {
+  list: arrayOf(UserType).isRequired,
 };
 
-function AvatarListPage() {
+function AvatarListPage({ list }) {
   return (
     <ul className="AvatarList">
-      <li>
-        <Avatar name="야무" photo="man-02.jpg" status="online" />
-      </li>
-      <li>
-        <Avatar name="범쌤" photo="man-04.jpg" status="away" />
-      </li>
-      <li>
-        <Avatar name="주원" photo="woman-04.jpg" status="dont-disturb" />
-      </li>
-      <li>
-        <Avatar name="정민" photo="woman-01.jpg" />
-      </li>
+      {list.map((user) => (
+        <li key={user.id}>
+          <Avatar user={user} />
+        </li>
+      ))}
     </ul>
   );
 }
