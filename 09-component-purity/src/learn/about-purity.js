@@ -22,8 +22,8 @@ function truncateText(text, limit = 100) {
 
 const testText = 'yamoo9 '.repeat(25);
 
-console.log(testText.length);
-console.log(1, truncateText(testText));
-console.log(2, truncateText(testText));
-console.log(3, truncateText(testText));
-console.log(4, truncateText(testText));
+// console.log(testText.length);
+// console.log(1, truncateText(testText));
+// console.log(2, truncateText(testText));
+// console.log(3, truncateText(testText));
+// console.log(4, truncateText(testText));
