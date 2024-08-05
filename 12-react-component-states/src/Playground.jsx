@@ -1,9 +1,9 @@
-import AvatarListPage from '@/pages/AvatarListPage';
+import Counter from './components/Counter';
 
 function Playground() {
   return (
     <>
-      <AvatarListPage />
+      <Counter />
     </>
   );
 }
