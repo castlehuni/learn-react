@@ -1,4 +1,4 @@
-import TermAndCondition from './components/TermAndCondition.class';
+import TermAndCondition from './components/TermAndCondition';
 
 function Playground() {
   return (
