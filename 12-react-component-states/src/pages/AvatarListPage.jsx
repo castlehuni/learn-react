@@ -1,21 +1,38 @@
 import Avatar from '@/components/Avatar';
-import { STATUS } from '@/constants/STATUS';
+import { avatarsData } from '@/data/avatars';
+import { useState } from 'react';
 
 function AvatarListPage() {
+  const [list, setList] = useState(avatarsData);
+
+  const handleDeleteItem = (deleteId) => () => {
+    console.log('delete item', deleteId);
+    const nextList = list.filter((item) => item.id !== deleteId);
+    setList(nextList);
+  };
+
+  if (list.length === 0) {
+    return <p>화면에 표시할 아바타가 없습니다</p>;
+  }
+
   return (
     <ul className="AvatarList">
-      <li>
-        <Avatar name="야무" photo="man-02.jpg" status={STATUS.online} />
-      </li>
-      <li>
-        <Avatar name="범쌤" photo="man-04.jpg" status={STATUS.away} />
-      </li>
-      <li>
-        <Avatar name="주원" photo="woman-04.jpg" status={STATUS.dontDisturb} />
-      </li>
-      <li>
-        <Avatar name="정민" photo="woman-01.jpg" />
-      </li>
+      {list.map((item) => (
+        <li key={item.id}>
+          <Avatar
+            name={item.name}
+            photo={item.photo}
+            status={item.status}
+          ></Avatar>
+          <button
+            type="button"
+            onClick={handleDeleteItem(item.id)}
+            style={{ marginBlockStart: 8 }}
+          >
+            삭제
+          </button>
+        </li>
+      ))}
     </ul>
   );
 }
