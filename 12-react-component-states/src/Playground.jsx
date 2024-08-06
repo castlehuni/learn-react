@@ -1,9 +1,9 @@
-import Counter from './components/Counter';
+import Counter from './components/Counter.class';
 
 function Playground() {
   return (
     <>
-      <Counter count={3} max={6} />
+      <Counter count={5} step={1} />
     </>
   );
 }

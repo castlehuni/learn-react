@@ -12,11 +12,28 @@
 // --------------------------------------------------------------------------
 
 import { Component } from 'react';
+import './Counter.css';
 
-class Counter extends Component() {
+class Counter extends Component {
+  state = {
+    isDecreseButton: false,
+    isIncreaseButton: false,
+  };
   render() {
-    return <></>;
+    const { isDecreseButton, isIncreaseButton } = this.state;
+    const { count, step, min, max } = this.props;
+
+    return (
+      <div className="Counter">
+        <button type="button">{-step}</button>
+        <output>{count}</output>
+        <button type="button">{+step}</button>
+      </div>
+    );
   }
+  handleDecrease = () => {
+    let nextValue = this.count - this.step;
+  };
 }
 
 export default Counter;
