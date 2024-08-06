@@ -3,7 +3,7 @@ import Counter from './components/Counter';
 function Playground() {
   return (
     <>
-      <Counter />
+      <Counter count={3} max={6} />
     </>
   );
 }
