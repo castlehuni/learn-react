@@ -22,12 +22,23 @@ Counter.propTypes = {
 };
 
 /**@type {({count?:number, step?:number, min?:number, max?:number})} */
-function Counter({ count: initialCount = 1, step = 1, min = 1, max = 1000 }) {
+function Counter({ count: initialCount = 5, step = 1, min = 2, max = 1000 }) {
   const [count, setCount] = useState(initialCount);
+
+  function handleMinusButton() {
+    let newCount = count - step;
+    if (newCount >= min) {
+      setCount(newCount);
+    } else {
+      alert('count가 최소값보다 적으면 안됩니다');
+    }
+  }
 
   return (
     <div className="Counter">
-      <button type="button">-{step}</button>
+      <button type="button" onClick={handleMinusButton}>
+        -{step}
+      </button>
       <output>{count}</output>
       <button type="button">+{step}</button>
     </div>
