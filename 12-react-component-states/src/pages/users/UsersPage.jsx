@@ -8,16 +8,24 @@
 // - [ ] 사용자 정보 검색 시, 검색 정보 업데이트
 // --------------------------------------------------------------------------
 
+import { useState } from 'react';
+import usersData from './data/users';
 import UserSearchBox from './components/UserSearchBox';
 import UserListCount from './components/UserListCount';
 import UsersList from './components/UsersList';
 
 export function UsersPage() {
+  const [users, setUsers] = useState(usersData);
+
+  console.log(users);
+
   return (
     <div className="UsersPage">
       <UserSearchBox />
-      <UsersList />
+      <UsersList users={users} />
       <UserListCount />
     </div>
   );
 }
+
+export default UsersPage;
