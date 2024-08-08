@@ -1,4 +1,4 @@
-import { UsersPage } from '@/pages/users/UsersPage';
+import UsersPage from '@/pages/users/UsersPage';
 
 function Playground() {
   return (
