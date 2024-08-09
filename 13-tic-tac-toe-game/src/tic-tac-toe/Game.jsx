@@ -7,12 +7,13 @@
 // --------------------------------------------------------------------------
 
 import './styles/main.css';
+import S from './styles/Game.module.css';
 import Board from './components/Board/Board';
 import History from './components/Historys/History';
 
 function Game() {
   return (
-    <div className="Game">
+    <div className={S.component}>
       <Board />
       <History />
     </div>
