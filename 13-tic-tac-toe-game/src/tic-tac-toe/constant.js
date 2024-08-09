@@ -5,6 +5,8 @@ export const PLAYER = {
   TWO: '🐱',
 };
 
+export const PLAYER_LIST = Object.values(PLAYER);
+
 export const PLAYER_COUNT = Object.keys(PLAYER).length;
 
 // 스퀘어 집합: 초기 상태 값
@@ -24,7 +26,7 @@ export const WINNER_CONDITIONS = [
   [2, 4, 6],
 ];
 
-export const checkWinner = (squares) => {
+export const checkeWinner = (squares) => {
   let winnerInfo = null;
 
   for (const [x, y, z] of WINNER_CONDITIONS) {

@@ -4,136 +4,52 @@
 // - [x] squares 배열 데이터를 게임의 상수로 설정합니다.
 // - [x] squares 배열 데이터의 초기 상태 값은 9개의 `null`로 구성합니다.
 // - [x] squares 배열 데이터 모듈을 불러온 후, 순환해 Sqaure 컴포넌트를 리스트 렌더링 합니다.
+// - [x] 게임 진행을 처리하는 함수 로직을 작성하고, 리액트에게 다음 상태 변경에 대해 말해주세요.
+// - [ ] 게임이 이겼는 지, 졌는 지 확인하는 승리 조건을 게임의 상수로 선언합니다.
 // --------------------------------------------------------------------------
-
-import { useState } from 'react';
-import {
-  PLAYER,
-  PLAYER_COUNT,
-  INITIAL_SQUARES,
-  checkWinner,
-  WINNERS_COLOR,
-} from '@/tic-tac-toe/constant';
-import Square from '../Square/Square';
+import { WINNERS_COLOR, PLAYER_LIST } from '@/tic-tac-toe/constant';
 import S from './Squares.module.css';
+import Square from '../Square/Square';
+import { arrayOf, func, number, oneOf, shape } from 'prop-types';
 
-// 상태를 가지는(Stateful) 컴포넌트
-function Squares() {
-  // [게임 상태] --------------------------------------------------------------
+const OneOfPlayerType = oneOf(PLAYER_LIST);
+const OneOfPlayerListType = arrayOf(OneOfPlayerType);
+const WinnerInfoType = shape({
+  winner: OneOfPlayerType,
+  condition: arrayOf(number),
+});
 
-  // 게임판(9개의 말판) 상태를 나타내는 리액트의 상태 선언
-  const [squares, setSquares] = useState(INITIAL_SQUARES);
+Squares.propTypes = {
+  squares: OneOfPlayerListType.isRequired,
+  winnerInfo: WinnerInfoType,
+  onPlay: func,
+};
 
-  // [게임 상태 업데이트 기능] ----------------------------------------------------
-
-  // 게임을 진행하는 함수
-  // const playGame = (index) => {
-  //   // ----------------------------------------------------------------------------
-  //   // 리액트 렌더링 프로세스 플로우(진행 흐름)
-  //   // ----------------------------------------------------------------------------
-  //   // 게임 상태 변경 -> 리액트에게 렌더 트리거(요청) -> 리액트는 컴포넌트 다시 렌더링 -> 렌더 트리 생성
-  //   // -> 리액트 돔 이전 렌더 트리 현재 렌더 트리 비교 -> 차이 발견 -> 실제 DOM 커밋(변경된 부분만 패치)
-
-  //   // [우리들의 언어 작성 : 스크립트]
-  //   // 리액트야 사용자가 4번 인덱스의 스퀘어를 클릭했다.
-  //   // 게임을 진행하고 싶어해. 그러니 스퀘어의 집합인 스퀘어스의 상태를 변경할께.
-  //   // 리액트는 이를 반영해서 화면을 업데이트 해주렴!
-
-  //   // [리액트의 언어로 이야기를 해줘야 이해]
-  //   // 리액트 도구의 사용법을 알고, 설명해줘야 알아들음
-  //   // 리액트 상태 업데이트 API 방법 사용
-  //   // const [state, setState] = useState(initialValue);
-  //   // setState(nextState);
-  //   // setState((prevState) => nextState);
-
-  //   // 상태 업데이트 API (direct value)
-  //   // 다음 스퀘어 집합의 상태
-  //   // 이전 스퀘어 집합을 순환한다.
-  //   const nextSquares = squares.map((square, idx) => {
-  //     return idx === index ? currentPlayer : square;
-  //   });
-
-  //   // console.log({이전_상태: squares});
-  //   // console.log({다음_상태: nextSquares});
-
-  //   setSquares(nextSquares);
-
-  //   // 상태 업데이트 API (callback)
-  //   // setSquares((prevSquares) => {
-  //   //   // 다음 번 컴포넌트 렌더링 시, 전달(계산)된 현재 시점의 상태: 이전 스퀘어 집합을 순환해서
-  //   //   const nextSquares = prevSquares.map((square, squareIndex) => {
-  //   //     // 개별 스퀘어의 인덱스와 사용자 행동에 따라 선택된 인덱스를 비교한다.
-  //   //     // 만약 그 값이 동일하다면?
-  //   //     if (squareIndex === index) {
-  //   //       return currentPlayer;
-  //   //     }
-  //   //     // 동일하지 않은 경우 그냥 이전 값을 반환한다.
-  //   //     return square;
-  //   //   });
-
-  //   //   // 반환한 값이 다음 번 렌더링에서의 (스냅샷) 상태 값
-  //   //   return nextSquares;
-  //   // });
-  // }
-
-  // const handlePlayGame = (index) => {
-  //   return /* onPlay 속성에 연결된 이벤트 핸들러 */() => {
-  //     const nextSquares = squares.map((square, idx) => {
-  //       return idx === index ? currentPlayer : square;
-  //     });
-
-  //     return nextSquares;
-  //   };
-  // }
-
-  const handlePlayGame = (index) => () => {
-    if (winnerInfo) {
-      alert('Game Over');
-      return;
-    }
-
-    setSquares((prevSquares) => {
-      const nextSquares = prevSquares.map((square, idx) => {
-        return idx === index ? currentPlayer : square;
-      });
-
-      return nextSquares;
-    });
-  };
-
-  // [게임 파생된 상태] ----------------------------------------------------------
-
-  // 리액트는 바로 상태를 변경하지 않기 때문에 밖으로 빼는 것이 좋음
-  const winnerInfo = checkWinner(squares);
-
-  // 게임 순서 (0, 1, 2, 3, ...)
-  const gameIndex = squares.filter(Boolean).length;
-
-  // 현재 게임 플레이어 ([0] PLAYER.ONE ↔ [1] PLAYER.TWO)
-  // 첫번째 플레이어의 턴인가요?
-  const isPlayerOneTurn = gameIndex % PLAYER_COUNT === 0;
-  // 첫번째 플레이어의 턴이면 PLAYER.ONE 아니면 PLAYER.TWO
-  const currentPlayer = isPlayerOneTurn ? PLAYER.ONE : PLAYER.TWO;
-
+// 상태를 가지지 않는(Stateless) 컴포넌트
+function Squares({ squares, winnerInfo, onPlay }) {
   return (
     <div className={S.component}>
       {/* 리액트 (JSX) 마크업 : 리스트 렌더링 */}
       {squares.map((square, index) => {
+        // 배경 색칠 공부를 위한 스타일 객체를 정의해봐요!
         const winnerStyles = {
           backgroundColor: null,
         };
+
+        // 리액트~ 게임 승자가 있나요?
+        // winnerInfo는 null 또는 { winner, condition } 둘 중 하나!
         if (winnerInfo) {
+          // 오호? 승자가 있군요! 승자의 조건을 알려주세요!
           const [x, y, z] = winnerInfo.condition;
+
+          // 그럼 승자의 스퀘어(말판)에 색칠을 할께요!
           if (index === x || index === y || index === z) {
             winnerStyles.backgroundColor = WINNERS_COLOR;
           }
         }
+
         return (
-          <Square
-            key={index}
-            style={winnerStyles}
-            onPlay={handlePlayGame(index)}
-          >
+          <Square key={index} style={winnerStyles} onPlay={onPlay(index)}>
             {square}
           </Square>
         );
