@@ -25,8 +25,6 @@ export const WINNER_CONDITIONS = [
 ];
 
 export const checkWinner = (squares) => {
-  console.log(WINNER_CONDITIONS);
-
   let winnerInfo = null;
 
   for (const [x, y, z] of WINNER_CONDITIONS) {

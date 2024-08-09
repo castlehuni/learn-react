@@ -87,6 +87,11 @@ function Squares() {
   // }
 
   const handlePlayGame = (index) => () => {
+    if (winnerInfo) {
+      alert('Game Over');
+      return;
+    }
+
     setSquares((prevSquares) => {
       const nextSquares = prevSquares.map((square, idx) => {
         return idx === index ? currentPlayer : square;
