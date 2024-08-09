@@ -25,21 +25,29 @@ function Squares() {
     // -> 리액트 돔 이전 렌더 트리 현재 렌더 트리 비교 -> 차이가 발견 -> 실제 DOM 커밋(변경된 부분만 패치)
     return () => {
       // console.log(`play game #${index}`);
-      setSquares((prevSquares) => {
-        // 다음 번 컴포넌트 렌더링 시, 전달(계산)된 현재 시점의 상태: 이전 스퀘어 집합을 순환해서
-        const nextSquare = prevSquares.map((square, squareIndex) => {
-          // 개별 스퀘어의 인덱스와 사용자 행동에 따라 선택된 인덱스를 비교한다.
-          // 만약 그 값이 동일하다면?
-          if (squareIndex === index) {
-            return currentPlayer;
-          }
-          // 동일하지 않은 경우 그냥 이전 값을 반환한다.
-          return square;
-        });
 
-        // 반환한 값이 다음 번 렌더링에서의 (스냅샷) 상태 값
-        return nextSquare;
+      const nextSquares = squares.map((square, idx) => {
+        return idx === index ? currentPlayer : square;
       });
+
+      setSquares(nextSquares);
+
+      // 상태 업데이트 API(callback)
+      // setSquares((prevSquares) => {
+      //   // 다음 번 컴포넌트 렌더링 시, 전달(계산)된 현재 시점의 상태: 이전 스퀘어 집합을 순환해서
+      //   const nextSquare = prevSquares.map((square, squareIndex) => {
+      //     // 개별 스퀘어의 인덱스와 사용자 행동에 따라 선택된 인덱스를 비교한다.
+      //     // 만약 그 값이 동일하다면?
+      //     if (squareIndex === index) {
+      //       return currentPlayer;
+      //     }
+      //     // 동일하지 않은 경우 그냥 이전 값을 반환한다.
+      //     return square;
+      //   });
+
+      //   // 반환한 값이 다음 번 렌더링에서의 (스냅샷) 상태 값
+      //   return nextSquare;
+      // });
     };
   };
 
