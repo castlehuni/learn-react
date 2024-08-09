@@ -10,6 +10,8 @@ export const PLAYER_COUNT = Object.keys(PLAYER).length;
 // 스퀘어 집합: 초기 상태 값
 export const INITIAL_SQUARES = Array(9).fill(null);
 
+export const WINNERS_COLOR = 'lightcyan';
+
 // 게임 승리 조건
 export const WINNER_CONDITIONS = [
   [0, 1, 2],
@@ -22,4 +24,19 @@ export const WINNER_CONDITIONS = [
   [2, 4, 6],
 ];
 
-export const checkWinner = () => {};
+export const checkWinner = (squares) => {
+  console.log(WINNER_CONDITIONS);
+
+  let winnerInfo = null;
+
+  for (const [x, y, z] of WINNER_CONDITIONS) {
+    const winner = squares[x];
+
+    if (winner && winner === squares[y] && winner === squares[z]) {
+      console.log('Game Over');
+      winnerInfo = { winner, condition: [x, y, z] };
+      break;
+    }
+  }
+  return winnerInfo;
+};

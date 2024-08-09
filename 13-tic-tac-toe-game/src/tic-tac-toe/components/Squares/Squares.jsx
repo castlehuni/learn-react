@@ -12,6 +12,7 @@ import {
   PLAYER_COUNT,
   INITIAL_SQUARES,
   checkWinner,
+  WINNERS_COLOR,
 } from '@/tic-tac-toe/constant';
 import Square from '../Square/Square';
 import S from './Squares.module.css';
@@ -86,12 +87,6 @@ function Squares() {
   // }
 
   const handlePlayGame = (index) => () => {
-    // const nextSquares = squares.map((square, idx) =>
-    //   idx === index ? currentPlayer : square
-    // );
-
-    // setSquares(nextSquares);
-
     setSquares((prevSquares) => {
       const nextSquares = prevSquares.map((square, idx) => {
         return idx === index ? currentPlayer : square;
@@ -103,6 +98,9 @@ function Squares() {
 
   // [게임 파생된 상태] ----------------------------------------------------------
 
+  // 리액트는 바로 상태를 변경하지 않기 때문에 밖으로 빼는 것이 좋음
+  const winnerInfo = checkWinner(squares);
+
   // 게임 순서 (0, 1, 2, 3, ...)
   const gameIndex = squares.filter(Boolean).length;
 
@@ -112,14 +110,25 @@ function Squares() {
   // 첫번째 플레이어의 턴이면 PLAYER.ONE 아니면 PLAYER.TWO
   const currentPlayer = isPlayerOneTurn ? PLAYER.ONE : PLAYER.TWO;
 
-  console.log('렌더링\n\n', { squares, gameIndex, currentPlayer });
-
   return (
     <div className={S.component}>
       {/* 리액트 (JSX) 마크업 : 리스트 렌더링 */}
       {squares.map((square, index) => {
+        const winnerStyles = {
+          backgroundColor: null,
+        };
+        if (winnerInfo) {
+          const [x, y, z] = winnerInfo.condition;
+          if (index === x || index === y || index === z) {
+            winnerStyles.backgroundColor = WINNERS_COLOR;
+          }
+        }
         return (
-          <Square key={index} onPlay={handlePlayGame(index)}>
+          <Square
+            key={index}
+            style={winnerStyles}
+            onPlay={handlePlayGame(index)}
+          >
             {square}
           </Square>
         );
