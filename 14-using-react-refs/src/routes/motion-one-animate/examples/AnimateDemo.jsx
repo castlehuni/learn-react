@@ -8,10 +8,20 @@
 // - [ ] 진행률이 화면에 표시되도록 애니메이션해봅니다.
 // --------------------------------------------------------------------------
 
+import { useRef } from 'react';
 import S from './AnimateDemo.module.css';
+import { animate } from 'motion';
 
 function AnimateDemo() {
-  const handleMoveAnimate = () => {};
+  const lollipopRef = useRef(null);
+
+  const handleMoveAnimate = () => {
+    // const lollipopElement = lollipopRef.current;
+
+    const { current: element } = lollipopRef;
+
+    animate(element, { x: 400, rotate: 360 }, { duration: 4, delay: 0.5 });
+  };
 
   const handleProgressAnimate = () => {};
 
@@ -21,7 +31,7 @@ function AnimateDemo() {
         무빙 애니메이션
       </button>
 
-      <figure className={S.lollipop} />
+      <figure ref={lollipopRef} className={S.lollipop} />
 
       <div className={S.wrapper}>
         <button
