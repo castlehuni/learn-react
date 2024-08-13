@@ -12,14 +12,45 @@
 // --------------------------------------------------------------------------
 import { string } from 'prop-types';
 import S from './PracticeSVGPathAnimation.module.css';
+import { useRef } from 'react';
+import { timeline } from 'motion';
 
 PracticeSVGPathAnimation.propTypes = {
   color: string,
 };
 
 function PracticeSVGPathAnimation({ color = '#4729B4 ' }) {
+  const circle1Ref = useRef(null);
+  const barRef = useRef(null);
+  const circle2Ref = useRef(null);
+
+  const handleOnclick = () => {
+    const circle1Element = circle1Ref.current;
+    const barElement = barRef.current;
+    const circle2Element = circle2Ref.current;
+
+    const sequence = [
+      [
+        circle1Element,
+        { strokeDashoffset: [1, 0], visibility: 'visible' },
+        { duration: 1, easing: 'ease-out' },
+      ],
+      [
+        barElement,
+        { strokeDashoffset: [1, 0], visibility: 'visible' },
+        { duration: 0.6, easing: 'ease-in-out', at: '-0.2' },
+      ],
+      [
+        circle2Element,
+        { strokeDashoffset: [1, 0], visibility: 'visible' },
+        { duration: 1, easing: 'ease-out' },
+      ],
+    ];
+
+    timeline(sequence);
+  };
   return (
-    <div className={S.component}>
+    <div className={S.component} onClick={handleOnclick}>
       <svg width={210} height={41} viewBox="0 0 210 41" fill="none">
         <circle
           cx="20.5"
@@ -30,6 +61,7 @@ function PracticeSVGPathAnimation({ color = '#4729B4 ' }) {
           strokeDashoffset={0}
           strokeWidth={6}
           pathLength={1}
+          ref={circle1Ref}
         />
         <line
           x1={35}
@@ -41,6 +73,7 @@ function PracticeSVGPathAnimation({ color = '#4729B4 ' }) {
           strokeDashoffset={0}
           strokeWidth={6}
           pathLength={1}
+          ref={barRef}
         />
         <circle
           cx="189.5"
@@ -51,6 +84,7 @@ function PracticeSVGPathAnimation({ color = '#4729B4 ' }) {
           strokeDashoffset={0}
           strokeWidth={6}
           pathLength={1}
+          ref={circle2Ref}
         />
       </svg>
     </div>
