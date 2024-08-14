@@ -43,7 +43,7 @@ function AnimateDemo() {
     };
 
     const animationOptions = {
-      duration: 4,
+      duration: 2,
       easing: 'ease-in-out',
     };
 

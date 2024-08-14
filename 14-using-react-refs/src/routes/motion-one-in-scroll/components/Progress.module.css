@@ -5,6 +5,7 @@
   left: 0;
   right: 0;
   block-size: 8px;
+
   background-color: #e8702a;
   backdrop-filter: blur(4px);
   transform-origin: left center;
