@@ -4,20 +4,28 @@ import { getStorageData, setStorageData } from '@/utils';
 
 const DOCUMENT_INITIAL_TITLE = '문서 제목 동기화';
 
+// 스토리지 저장할 키
+// - @counter/count
 const COUNTER_COUNT = '@counter/count';
+// - @counter/step
 const COUNTER_STEP = '@counter/step';
+
+// [이펙트] 문서 제목 - 웹 스토리지 동기화
 
 function Counter() {
   const id = useId();
 
   const [count, setCount] = useState(() => getStorageData(COUNTER_COUNT, 0));
   useEffect(() => {
+    // 브라우저 윈도우 동기화
     document.title = `(${count}) ` + DOCUMENT_INITIAL_TITLE;
+    // 브라우저 웹 스토리지 동기화
     setStorageData(COUNTER_COUNT, count);
   }, [count]);
 
   const [step, setStep] = useState(() => getStorageData(COUNTER_STEP, 1));
   useEffect(() => {
+    // 브라우저 웹 스토리지 동기화
     setStorageData(COUNTER_STEP, step);
   }, [step]);
 
