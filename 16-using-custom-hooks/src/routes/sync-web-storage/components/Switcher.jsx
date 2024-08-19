@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { animate, spring } from 'motion';
 import { bool, func } from 'prop-types';
 import S from './Switcher.module.css';
