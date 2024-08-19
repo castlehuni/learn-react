@@ -1,6 +1,7 @@
-import { useId, useState, useEffect } from 'react';
+import { useId, useState } from 'react';
 import S from './Counter.module.css';
 import { getStorageData, setStorageData } from '@/utils';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 const DOCUMENT_INITIAL_TITLE = '문서 제목 동기화';
 const COUNTER_COUNT = '@counter/count';
@@ -12,9 +13,10 @@ function Counter() {
   const [count, setCount] = useState(() =>
     getStorageData(COUNTER_COUNT, 0, 'session')
   );
-  useEffect(() => {
-    document.title = `(${count}) ` + DOCUMENT_INITIAL_TITLE;
-  }, [count]);
+
+  const documentTitle = `(${count})` + DOCUMENT_INITIAL_TITLE;
+
+  useDocumentTitle(documentTitle);
 
   const [step, setStep] = useState(() =>
     getStorageData(COUNTER_STEP, 1, 'session')
