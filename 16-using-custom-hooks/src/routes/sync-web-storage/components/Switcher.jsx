@@ -14,6 +14,8 @@ function Switcher({ value = false, onToggle, ...restProps }) {
   const ballRef = useRef(null);
 
   useEffect(() => {
+    const el = ballRef.current;
+
     if (value) {
       animate(el, { x: 50 }, { easing: springAnimation });
     } else {

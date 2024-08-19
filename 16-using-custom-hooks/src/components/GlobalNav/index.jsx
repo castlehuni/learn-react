@@ -1,27 +1,32 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import S from './style.module.css';
+import { NavLink } from 'react-router-dom';
 
 function GlobalNav() {
+  const [navigationList] = useState([
+    { path: '/', text: '문서 제목 동기화' },
+    { path: '/sync-web-storage', text: '웹 스토리지 동기화' },
+    { path: '/effect-sync-and-cleanup', text: '이펙트 동기화 & 정리' },
+    { path: '/scroll-trigger-effect', text: '스크롤 트리거 이펙트' },
+    { path: '/sync-backend', text: '백엔드 환경 동기화' },
+  ]);
+
   return (
     <nav className={S.component}>
       <h2>학습 주제</h2>
       <ul>
-        <li>
-          <Link to={'/'}>문서 제목 동기화</Link>
-        </li>
-        <li>
-          <Link to={'/sync-web-storage'}>웹 스토리지 동기화</Link>
-        </li>
-        <li>
-          <Link to={'/effect-sync-and-cleanup'}>
-            마우스 위치 (이벤트 연결 &amp; 클린업)
-          </Link>
-        </li>
-        <li>
-          <Link to={'/scroll-trigger-effect'}>
-            스크롤 트리거(Scroll Trigger) 이펙트
-          </Link>
-        </li>
+        {navigationList.map(({ path, text }) => (
+          <li key={path}>
+            <NavLink
+              to={path}
+              className={({ isActive }) => {
+                return isActive ? S.active : undefined;
+              }}
+            >
+              {text}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   );
