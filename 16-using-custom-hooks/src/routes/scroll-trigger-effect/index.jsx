@@ -3,7 +3,6 @@ import Peekaboo from './components/Peekaboo';
 
 function ScrollTriggerEffect() {
   useDocumentTitle('스크롤 트리거 이펙트');
-
   return (
     <main id="page">
       <h1 className="headline">스크롤 트리거(Scroll Trigger) 이펙트</h1>
