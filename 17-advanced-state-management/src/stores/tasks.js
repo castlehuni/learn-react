@@ -14,12 +14,14 @@ export const toggleTask = () => ({
   type: ACTION_TYPES.TOGGLE_TASK,
 });
 
-export const togglePin = () => ({
+export const togglePin = (taskId) => ({
   type: ACTION_TYPES.TOGGLE_PIN,
+  payload: taskId,
 });
 
-export const deleteTask = () => ({
+export const deleteTask = (deleteId) => ({
   type: ACTION_TYPES.DELETE_TASK,
+  payload: deleteId,
 });
 
 export const INITIAL_TASKS = [
@@ -53,13 +55,23 @@ export default function reducer(state, action) {
     }
 
     case ACTION_TYPES.DELETE_TASK: {
-      console.log('삭제');
-      return state;
+      const deleteId = action.payload;
+      const nextState = state.filter((item) => item.id !== deleteId);
+      return nextState;
     }
 
     case ACTION_TYPES.TOGGLE_PIN: {
-      console.log('핀 토글');
-      return state;
+      const taskId = action.payload;
+
+      const nextState = state.map((item) => {
+        if (item.id === taskId) {
+          const nextTask = { ...item, isPin: !item.isPin };
+          return nextTask;
+        } else {
+          return item;
+        }
+      });
+      return nextState;
     }
 
     case ACTION_TYPES.TOGGLE_TASK: {
