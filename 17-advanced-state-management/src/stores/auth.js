@@ -20,7 +20,7 @@ export const resetAuth = () => ({
 const authReducer = (state, action) => {
   switch (action.type) {
     case ACTION_TYPES.SET: {
-      const authInfo = action.payload;
+      const authInfo = action.payload; 
 
       return { ...state, ...authInfo };
     }
@@ -29,7 +29,7 @@ const authReducer = (state, action) => {
       return INITIAL_AUTH_INFO;
     }
 
-    default:
+    default: 
       return state;
   }
 };
